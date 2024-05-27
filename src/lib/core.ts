@@ -1,3 +1,5 @@
+import { distinct } from "./utils";
+
 export function generateMathList(numList: Array<number> = []) {
   const [n1, ...nr] = numList;
   
@@ -50,21 +52,22 @@ export function isSpecialEpisode(num: number, wantedNumber: number) {
 export type SpecialEpisodeResult = {
   num: number;
   special: boolean;
-  math: string;
+  math: Array<string>;
 }
 
 export function getSpecialEpisodes(start = 0, end = 500, wantedNumber = 13): Array<SpecialEpisodeResult> {
   return Array.from({ length: end - start }, (_, i) => i + start).map((num) => {
     const mathList = generateGroupedNumberList(String(num))
-      .map(gn => generateMathList(gn))
-      .flatMap(m => m);
+      .map(gn => generateMathList(gn.filter(n => n > 0)))
+      .flatMap(m => m)
+      .filter(distinct());
   
-    const mathThatFindWantedNumber = mathList.find(calc => eval(calc) === wantedNumber);
+    const mathThatFindWantedNumber = mathList.filter(calc => eval(calc) === wantedNumber);
   
     return {
       num,
-      special: !!mathThatFindWantedNumber,
-      math: mathThatFindWantedNumber || '',
+      special: mathThatFindWantedNumber.length > 0,
+      math: mathThatFindWantedNumber,
     }
   });
 }

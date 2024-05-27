@@ -1,7 +1,11 @@
+import { Button } from "@/components/ui/button";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SpecialEpisodeResult, getSpecialEpisodes } from "@/lib/core";
-import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+import { Fragment, useEffect, useState } from "react";
 
 export default function Home() {
   const maxEpisodes = 1000;
@@ -30,7 +34,8 @@ export default function Home() {
             <TableHeader className="sticky top-0 bg-background">
               <TableRow className="sticky top-0">
                 <TableHead className="px-4">Numero do episódio</TableHead>
-                <TableHead className="px-4 text-right">Calculo</TableHead>
+                <TableHead className="px-4 text-center w-1 text-nowrap">Qnt. Cálculos</TableHead>
+                <TableHead className="px-4 text-right w-1">Cálculo</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -39,7 +44,43 @@ export default function Home() {
                   <TableCell className="px-4 font-medium">
                     {String(ep.num).padStart(padLength, '0')}
                   </TableCell>
-                  <TableCell className="px-4 text-right font-mono">{`(${ep.math}) = ${wantedNumber}`}</TableCell>
+                  <TableCell className="px-4 text-center font-medium">
+                    {ep.math.length}
+                  </TableCell>
+                  <TableCell className="px-4 text-right">
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <Button
+                        className={cn(
+                          "p-0 h-fit font-mono text-foreground",
+                          ep.math.length === 1 && 'cursor-default hover:no-underline select-text',
+                          // ep.math.length > 5 && 'text-red-500'
+                        )}
+                        variant="link"
+                      >
+                          {`(${ep.math[0]}) = ${wantedNumber}`}
+                      </Button>
+                    </HoverCardTrigger>
+                    {ep.math.length > 1 && (
+                      <HoverCardContent className="w-fit text-center" align="center">
+                        <h4 className="mb-4 text-sm font-medium leading-none">
+                          Outros cálculos ({ep.num})
+                        </h4>
+                        <div className="overflow-y-scroll max-h-[40vh] mx-[-1rem] px-[1rem]">
+                          {ep.math.slice(1).map((m, i, a) => (
+                            <Fragment key={m}>
+                              <div className="text-sm font-mono">
+                              {`(${m}) = ${wantedNumber}`}
+                              </div>
+                              {i < a.length - 1 && <Separator className="my-2" />}
+                            </Fragment>
+                          ))}
+                        </div>
+                        
+                      </HoverCardContent>
+                    )}
+                  </HoverCard>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
