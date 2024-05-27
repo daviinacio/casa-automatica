@@ -25,7 +25,7 @@ export default function Home() {
           Em busca da <a className="text-blue-500 underline" rel="noreferrer" target="_black" href="https://www.youtube.com/watch?v=aWzKb071D9o&list=PLD40851E0E52E9080">casa automatica</a></p>
       </header>
       <div className="max-w-screen-sm mx-auto w-full flex flex-col gap-y-3 relative">
-        <ScrollArea className="sm:h-[60vh] h-[calc(100vh-200px)]">
+        <ScrollArea className="sm:h-[60vh] h-[calc(100vh-200px)]" type="always">
           <Table>
             <TableHeader className="sticky top-0 bg-background">
               <TableRow className="sticky top-0">

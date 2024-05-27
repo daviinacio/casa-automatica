@@ -1,23 +1,18 @@
-export function generateMathList(numList: Array<number> = [], firstLevel = true) {
-  const [n1, n2, ...nr] = numList;
-  if (n2 === undefined) return [
-    String(n1),
+export function generateMathList(numList: Array<number> = []) {
+  const [n1, ...nr] = numList;
+  
+  if(nr.length === 0) return [
+    String(n1)
   ];
 
-  const result = [];
-
-  for (const operator of ['+', '-', '*', '/']) {
-    let calc = `${operator} ${n2}`;
-
-    if (firstLevel) 
-      calc = `${n1} ${calc}`
-
-    if (nr.length > 0) {
-      generateMathList([n2, ...nr], false).forEach((c) => {
-        result.push(`${calc} ${c}`);
-      });
-    } else {
-      result.push(calc);
+  const result:Array<string> = [];
+  
+  for(const rc of generateMathList(nr)) {
+    for (const operator of ['+', '-', '*', '/']) {
+      result.push(`${n1} ${operator} ${rc}`);
+      result.push(`${rc} ${operator} ${n1}`);
+      // result.push(`(${n1} ${operator} ${rc})`);
+      // result.push(`(${rc} ${operator} ${n1})`);
     }
   }
 
