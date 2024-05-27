@@ -10,9 +10,10 @@ export function generateMathList(numList: Array<number> = []) {
   const result:Array<string> = [];
   
   for(const rc of generateMathList(nr)) {
-    for (const operator of ['+', '-', '*', '/']) {
+    for (const operator of ['+', '-', '*', '/', '**', '%']) {
       result.push(`${n1} ${operator} ${rc}`);
       result.push(`${rc} ${operator} ${n1}`);
+      // result.push(`Math.pow(${rc}, ${n1})`);
       // result.push(`(${n1} ${operator} ${rc})`);
       // result.push(`(${rc} ${operator} ${n1})`);
     }
@@ -21,7 +22,7 @@ export function generateMathList(numList: Array<number> = []) {
   return result;
 }
 
-export function generateGroupedNumberList(numText = '', firstLevel = true): Array<Array<number>> {
+export function generateGroupedNumberList(numText: string, firstLevel = true): Array<Array<number>> {
   const result = [];
 
   if (firstLevel)
@@ -64,6 +65,9 @@ export function getSpecialEpisodes(start = 0, end = 500, wantedNumber = 13): Arr
   
     const mathThatFindWantedNumber = mathList.filter(calc => eval(calc) === wantedNumber);
   
+    if(mathThatFindWantedNumber.some(c => c.includes('**') && c.includes('%')))
+      console.log('conflict', num)
+
     return {
       num,
       special: mathThatFindWantedNumber.length > 0,
