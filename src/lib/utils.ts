@@ -14,13 +14,6 @@ export const distinct = (<A extends Array<O>, O>(key?: keyof O) =>
 );
 
 export function joinJSX(children: ReactElement[], separator: ReactElement) {
-  // return React.Children.toArray(children).map((child, index) =>
-  //   React.cloneElement(child, {
-  //       ...child.props,
-  //       className: `${child.props.className || ''} ${index > 1 ? 'element-margin-top' : ''}`
-  //   })
-  // )
-
   return children
     .map((child, i) => React.cloneElement(child as React.ReactElement, { key: i, ...child.props }))
     .reduce((acc, child, i) => {
@@ -28,4 +21,10 @@ export function joinJSX(children: ReactElement[], separator: ReactElement) {
       //@ts-ignore
       return [...acc, React.cloneElement(separator, { key: `separator-${i}` }), child];
     }, [] as ReactNode[]);
+}
+
+
+// Number utilities
+export function floatLimitDecimals(value: number, decimals: number = 2): number {
+  return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
 }

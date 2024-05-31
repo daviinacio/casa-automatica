@@ -4,7 +4,8 @@ export function generateMathList(numList: Array<number> = []) {
   const [n1, ...nr] = numList;
   
   if(nr.length === 0) return [
-    String(n1)
+    String(n1),
+    `Math.sqrt(${n1})`
   ];
 
   const result:Array<string> = [];

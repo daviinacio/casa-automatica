@@ -2,7 +2,7 @@
   "name": "vn13-casa-automatica-special-ep",
   "homepage": "https://github.com/daviinacio/casa-automatica",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
