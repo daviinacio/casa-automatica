@@ -1,4 +1,11 @@
-import { distinct } from "./utils";
+import { distinct } from "./utils.ts";
+
+export type CacheType = {
+  wantedNumber: number;
+  maxEpisodes: number;
+  specialEpisodes: SpecialEpisodeResult[];
+  padLength: number;
+}
 
 export function generateMathList(numList: Array<number> = []) {
   const [n1, ...nr] = numList;
@@ -74,5 +81,5 @@ export function getSpecialEpisodes(start = 0, end = 500, wantedNumber = 13): Arr
       special: mathThatFindWantedNumber.length > 0,
       math: mathThatFindWantedNumber,
     }
-  });
+  }).filter((ep) => ep.special);
 }

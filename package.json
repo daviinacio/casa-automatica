@@ -5,8 +5,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "postinstall": "npm run pre-build",
     "dev": "vite",
-    "build": "tsc && vite build",
+    "pre-build": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./scripts/pre-build.ts",
+    "build": "npm run pre-build && tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy": "npm run build",
@@ -41,6 +43,7 @@
     "gh-pages": "^6.1.1",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }
